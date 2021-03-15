@@ -1,30 +1,65 @@
-﻿Get-Process chrome
-
-Get-Process | Where-Object {$_.ProcessName -eq 'chrome'}
-Get-Process | Where-Object {$_.ProcessName.Contains('sm')}
-Get-Process | Where-Object {$_.Id -eq '2200'}
-
-Stop-Process -Name notepad
-
-"Hello, World!" > "C:\Temp\FirstWayToSave.txt"
-"Hello, World!" | Out-File "C:\Temp\SecondWayToSave.txt"
-
-Get-Date -Format "yyyyMMdd_HHmmss"
-
-Get-ChildItem "C:\Temp" | Where-Object {$_.Length -eq 8} | Remove-Item
-
-While($True)
+﻿Write-Host "1 - Search processes by name"
+Write-Host "2 - Search processes by part of name"
+Write-Host "3 - Search process by Id"
+$Prompt = Read-Host "Please choose the action"
+switch ( $Prompt )
 {
-    $cDateTime = Get-Date -Format "ss"
-    Write-Host "CurrentTime $($cDateTime)"
-    Sleep(1)
-    if($cDateTime -eq 10)
+    1
     {
-        break
+        $Name = Read-Host "Please specify process name"
+        $Processes = ps -Name $Name -ErrorAction SilentlyContinue -ErrorVariable ProcessError
+        if ( $ProcessError )
+        {
+            Write-Host "Processes not found"
+        }
+        else
+        {
+            $Processes
+            $Prompt = Read-Host "Do you want to kill found processes? y/[n]"
+            if ( $Prompt -eq "y" )
+            {
+                kill -Name $Name
+            }
+        }
+    }
+    2
+    {
+        $NameSubstring = Read-Host "Please specify part of process name"
+        $Processes = ps | ? {$_.ProcessName -match $NameSubstring}
+        if ( $Processes )
+        {
+            $Processes
+            $Prompt = Read-Host "Do you want to kill found processes? y/[n]"
+            if ( $Prompt -eq "y" )
+            {
+                $Processes | % { kill -InputObject $_ }
+            }
+        }
+        else
+        {
+            Write-Host "Processes not found"
+        }
+    }
+    3
+    {
+        $Id = Read-Host "Please specify process Id"
+        $Processes = ps -Id $Id -ErrorAction SilentlyContinue -ErrorVariable ProcessError
+        if ( $ProcessError )
+        {
+            Write-Host "Process not found"
+        }
+        else
+        {
+            $Processes
+            $Prompt = Read-Host "Do you want to kill the found process? y/[n]"
+            if ( $Prompt -eq "y" )
+            {
+                kill -Id $Id
+            }
+        }
+    }
+    default
+    {
+        Write-Host "Incorrect input"
     }
 }
-
-Get-Process | Where-Object {$_.ProcessName.Contains('a')} | Select-Object Id, ProcessName | Export-Csv "C:\Temp\APList.csv" -NoTypeInformation
-ps | ? {$_.ProcessName.Contains('a')} | select Id, ProcessName | epcsv "C:\Temp\APList.csv" -NoTypeInformation
-
-Get-Alias
