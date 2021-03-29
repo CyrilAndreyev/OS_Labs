@@ -6,6 +6,6 @@
   Calls "PsInfo" Sysinternal tool and writes application's output to a text file.
 #>
 
-Invoke-Command -ScriptBlock {
+icm -ScriptBlock {
     Downloads\SysinternalsSuite\PsInfo.exe
 } > C:\Temp\PsInfo.txt
