@@ -13,8 +13,7 @@
 ----------------------------------------------------------------
 Computer name: $((gwmi Win32_ComputerSystem).Name)
 ----------------------------------------------------------------
-Storage devices info:
-$(gwmi Win32_LogicalDisk | Out-String)
+Storage devices info:$(gwmi Win32_LogicalDisk | Out-String)
 ----------------------------------------------------------------
 CPU usage: $((gwmi Win32_Processor).LoadPercentage)%
 ----------------------------------------------------------------
