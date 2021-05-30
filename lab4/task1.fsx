@@ -18,7 +18,7 @@ Process.GetProcesses()
 
 let path =
     if Environment.OSVersion.Platform = PlatformID.Win32NT then "C:\Temp\CurrentProcessList.csv"
-    else "~/Temp/CurrentProcessList.csv"
+    else "/tmp/CurrentProcessList.csv"
 
 Console.WriteLine("Writing process list to file")
 File.WriteAllText(path, sb.ToString())

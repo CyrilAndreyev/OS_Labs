@@ -32,7 +32,7 @@ Process.GetProcesses()
 
 let path =
     if Environment.OSVersion.Platform = PlatformID.Win32NT then $"C:\Temp\TopProcessList_{cDate}.csv"
-    else $"~/Temp/TopProcessList_{cDate}.csv"
+    else $"/tmp/TopProcessList_{cDate}.csv"
 
 Console.WriteLine("Writing process list to file")
 File.WriteAllText(path, sb.ToString())
