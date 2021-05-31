@@ -9,7 +9,7 @@ find /tmp/ -maxdepth 1 -name 'FilteredProcessList_*.csv' \
 read -r -p 'Please specify %MEM parameter value to filter processes: ' _input
 
 if ! [[ $_input =~ ^[0-9]+([.][0-9]+)?$ ]] ; then
-   echo "error: Not a number" >&2; exit 1
+  echo "error: Not a number" >&2; exit 1
 fi
 
 _file_name="/tmp/FilteredProcessList_$(date +%Y%m%d_%H%M%S).csv"
